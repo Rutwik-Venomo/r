@@ -1,0 +1,43 @@
+#include <DHT.h>
+
+#define DHTPIN 2        // Pin where the DHT sensor is connected
+#define DHTTYPE DHT11   // Change to DHT22 if you're using that sensor
+
+DHT dht(DHTPIN, DHTTYPE);
+
+float currentTemperature = 0;  // Variable to store the current temperature
+float minTemperature = 100;    // Initialize minTemperature with a high value
+float maxTemperature = -100;   // Initialize maxTemperature with a low value
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+  delay(2000);  // Delay for 2 seconds between readings
+
+  float temperatureCelsius = dht.readTemperature();  // Read the temperature from the sensor in Celsius
+
+  if (isnan(temperatureCelsius)) {
+    Serial.println("Failed to read from DHT sensor");
+  } else {
+    currentTemperature = temperatureCelsius;  // Update the current temperature
+
+    if (currentTemperature < minTemperature) {
+      minTemperature = currentTemperature;  // Update the minimum temperature
+    }
+
+    if (currentTemperature > maxTemperature) {
+      maxTemperature = currentTemperature;  // Update the maximum temperature
+    }
+
+    Serial.print("Current Temperature: ");
+    Serial.print(currentTemperature);
+    Serial.print(" °C | Min Temperature: ");
+    Serial.print(minTemperature);
+    Serial.print(" °C | Max Temperature: ");
+    Serial.print(maxTemperature);
+    Serial.println(" °C");
+  }
+}

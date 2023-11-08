@@ -1,0 +1,25 @@
+const int greenLedPin = 13;  // Pin for the green LED
+
+char userInput = ' ';
+
+void setup() {
+  pinMode(greenLedPin, OUTPUT);  // Set the green LED pin as an output
+  Serial.begin(9600);           // Initialize serial communication
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    userInput = Serial.read();  // Read user input from the serial monitor
+
+    if (userInput == 'a') {
+      // Blink the green LED
+      digitalWrite(greenLedPin, HIGH);
+      delay(500);  // Wait for half a second
+      digitalWrite(greenLedPin, LOW);
+      delay(500);  // Wait for another half a second
+    } else if (userInput == 'b') {
+      // Turn off the green LED
+      digitalWrite(greenLedPin, LOW);
+    }
+  }
+}

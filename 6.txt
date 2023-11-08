@@ -1,0 +1,37 @@
+int num1;  // Variable to store the first number
+int num2;  // Variable to store the second number
+
+void setup() {
+  Serial.begin(9600);  // Initialize serial communication
+  Serial.println("Enter the first number:");  // Prompt the user to enter the first number
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    num1 = Serial.parseInt();  // Read the user's input as the first number
+
+    if (!isnan(num1)) {
+      Serial.println("Enter the second number:");  // Prompt the user to enter the second number
+      while (Serial.available() == 0) {}  // Wait for input
+      
+      num2 = Serial.parseInt();  // Read the user's input as the second number
+
+      if (!isnan(num2)) {
+        int product = num1 * num2;  // Calculate the multiplication
+        
+        Serial.print("The product of ");
+        Serial.print(num1);
+        Serial.print(" and ");
+        Serial.print(num2);
+        Serial.print(" is ");
+        Serial.println(product);
+      } else {
+        Serial.println("Invalid input for the second number. Please enter a valid number.");
+      }
+    } else {
+      Serial.println("Invalid input for the first number. Please enter a valid number.");
+    }
+
+    Serial.println("Enter another set of numbers:");  // Prompt the user for another set of numbers
+  }
+}
